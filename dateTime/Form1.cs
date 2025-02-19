@@ -56,8 +56,9 @@ namespace dateTime
             string sexo = txtboxCurp.Text.Substring(10, 1);
             string estado = txtboxCurp.Text.Substring(11, 2);
             DateTime fechaNacimiento = FormatearFecha(fecha);
+            int edad = CalcularEdad(fechaNacimiento);
 
-            MessageBox.Show("Fecha de nacimiento: " + fechaNacimiento.ToString("dd/MM/yyyy") + "  Sexo: " + ObtenerSexo(sexo) + "  Estado: " + ObtenerNombreEstado(estado), "Datos de la CURP",
+            MessageBox.Show("Edad: " + edad + "  Sexo: " + ObtenerSexo(sexo) + "  Estado: " + ObtenerNombreEstado(estado), "Datos de la CURP",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -160,6 +161,19 @@ namespace dateTime
             year = (year >= 30) ? (1900 + year) : (2000 + year);
 
             return new DateTime(year, month, day);
+        }
+
+        private int CalcularEdad(DateTime fechaNacimiento)
+        {
+            DateTime fechaActual = DateTime.Today;
+            int edad = fechaActual.Year - fechaNacimiento.Year;
+
+            if (fechaNacimiento.Date > fechaActual.AddYears(-edad))
+            {
+                edad--;
+            }
+
+            return edad;
         }
 
         private void txtboxCurp_TextChanged(object sender, EventArgs e)
